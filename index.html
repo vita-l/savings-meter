@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SavingsMeter — Find Your Best Phone Deal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* --- Reset & tokens -------------------------------------------------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-blue-deep:   #006080;
+      --color-blue-dark:   #0084aa;
+      --color-blue-mid:    #279EC0;
+      --color-blue-light:  #4CB7D5;
+      --color-lime:        #c8ff7a;
+      --color-ink:         #1a1a1a;
+      --color-ink-muted:   rgba(26, 26, 26, 0.6);
+      --color-ink-faint:   rgba(26, 26, 26, 0.38);
+      --color-ink-border:  rgba(26, 26, 26, 0.3);
+      --color-white:       #ffffff;
+      --color-white-14:    rgba(255, 255, 255, 0.14);
+      --color-white-82:    rgba(255, 255, 255, 0.82);
+      --color-white-88:    rgba(255, 255, 255, 0.88);
+      --color-white-90:    rgba(255, 255, 255, 0.9);
+      --color-bg:          #f3f5f7;
+      --color-border:      #dde0e6;
+      --color-gray-200:    #e5e7eb;
+      --color-gray-300:    #d1d5db;
+      --color-red:         #cc4444;
+      --color-amber:       #fbbf24;
+      --color-trade-hover: #f0fafd;
+      --color-trade-active:#eef8fc;
+      --color-line-faint:  rgba(0, 0, 0, 0.07);
+      --color-shadow:      rgba(0, 0, 0, 0.82);
+      --shadow-card:       0 2px 16px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.04);
+      --shadow-cta:        4px 8px 0 0 var(--color-shadow);
+      --shadow-cta-hover:  4px 10px 0 0 var(--color-shadow);
+      --shadow-cta-active: 2px 4px 0 0 var(--color-shadow);
+      --radius-card:       20px;
+      --radius-panel:      18px;
+      --radius-btn:        40px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- SVG sprite ------------------------------------------------------ */
+    .svg-sprite {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+
+    /* --- Navbar ---------------------------------------------------------- */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 62px;
+      background: var(--color-white-88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--color-line-faint);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1.25rem, 5vw, 3rem);
+    }
+
+    .navbar-brand {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--color-ink);
+      text-decoration: none;
+      letter-spacing: -0.4px;
+    }
+
+    .navbar-brand-img {
+      max-width: 180px;
+      width: 100%;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    @media (min-width: 768px) {
+      .navbar-brand-img { max-width: 230px; }
+    }
+
+    .navbar-menu {
+      background: none;
+      border: none;
+      padding: 0 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .navbar-menu:hover { transform: translateY(-1px); }
+
+    .navbar-menu-icon {
+      width: 32px;
+      height: 32px;
+      display: block;
+    }
+
+    /* --- Hero ------------------------------------------------------------ */
+    .hero {
+      background: linear-gradient(
+        148deg,
+        var(--color-blue-light) 0%,
+        var(--color-blue-dark) 55%,
+        var(--color-blue-deep) 100%
+      );
+      padding: clamp(3.5rem, 9vw, 6rem) clamp(1.25rem, 5vw, 3rem);
+      text-align: center;
+    }
+
+    .hero-kicker {
+      display: inline-block;
+      background: var(--color-white-14);
+      color: var(--color-white-90);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.2rem, 6.5vw, 3.75rem);
+      color: var(--color-white);
+      letter-spacing: -0.035em;
+      line-height: 1.07;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-title-accent { color: var(--color-lime); }
+
+    .hero-lede {
+      font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+      color: var(--color-white-82);
+      max-width: 480px;
+      margin: 0 auto 2.25rem;
+    }
+
+    .hero-list {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      align-items: flex-start;
+      list-style: none;
+    }
+
+    .hero-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--color-white-90);
+    }
+
+    .hero-item-icon {
+      flex-shrink: 0;
+      color: var(--color-lime);
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* --- Calculator section --------------------------------------------- */
+    .calculator {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2.5rem);
+    }
+
+    .calculator-head {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .calculator-head h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+      color: var(--color-ink);
+      letter-spacing: -0.025em;
+      margin-bottom: 0.4rem;
+    }
+
+    .calculator-head p {
+      font-size: 0.95rem;
+      color: var(--color-ink-muted);
+    }
+
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    @media (max-width: 680px) {
+      .calculator-grid { grid-template-columns: 1fr; }
+    }
+
+    /* --- Savings meter --------------------------------------------------- */
+    .meter {
+      position: relative;
+      background: var(--color-white);
+      border-radius: var(--radius-card);
+      padding: 20px 18px 14px;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    .meter.is-pulsing::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-card);
+      pointer-events: none;
+      box-shadow: inset 0 0 0 2px var(--color-blue-dark);
+      animation: pulseRing 0.9s ease-out;
+    }
+
+    .meter svg { width: 100%; display: block; }
+
+    #fillArc {
+      stroke-dasharray: 0 377;
+      transition: stroke-dasharray 0.9s cubic-bezier(0.34, 1.3, 0.5, 1);
+    }
+
+    .meter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 46px;
+      font-weight: 600;
+      fill: var(--color-ink);
+      letter-spacing: -0.03em;
+    }
+
+    .meter-caption {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      fill: var(--color-ink-muted);
+    }
+
+    .meter-range {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      fill: var(--color-ink-faint);
+    }
+
+    .meter-footer {
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .meter-badge {
+      display: none;
+      padding: 7px 16px;
+      border-radius: 99px;
+      background: var(--color-lime);
+      color: var(--color-ink);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .meter-badge.is-visible {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* --- Step stack & panels --------------------------------------------- */
+    .step-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .step {
+      background: var(--color-white);
+      border-radius: var(--radius-panel);
+      padding: 22px 20px;
+      box-shadow: var(--shadow-card);
+      transition: opacity 0.3s, filter 0.3s;
+    }
+
+    .step.is-locked {
+      opacity: 0.38;
+      pointer-events: none;
+      filter: saturate(0.35);
+    }
+
+    .step-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .step-marker {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-blue-dark);
+    }
+
+    .step-marker-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1.5px solid var(--color-ink-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-ink-muted);
+    }
+
+    .step-marker-check { display: none; }
+
+    .step-marker.is-complete .step-marker-num { display: none; }
+    .step-marker.is-complete .step-marker-check { display: block; }
+
+    .step-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-ink);
+    }
+
+    .step-hint {
+      font-size: 0.875rem;
+      color: var(--color-ink-muted);
+      margin-bottom: 14px;
+    }
+
+    .phone-select {
+      width: 100%;
+      font-size: 15px;
+      padding: 12px 40px 12px 16px;
+      border-radius: 10px;
+      border: 1.5px solid var(--color-border);
+      background: var(--color-white);
+      color: var(--color-ink);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3e%3cpath fill='%231a1a1a' d='M6 7L0 0h12z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      transition: border-color 0.2s;
+    }
+
+    .phone-select:focus {
+      border-color: var(--color-blue-dark);
+      outline: none;
+    }
+
+    /* --- Trade-in options ------------------------------------------------ */
+    .trade-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .trade-option {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      border: 1.5px solid var(--color-border);
+      border-radius: 12px;
+      background: var(--color-white);
+      cursor: pointer;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.18s, background 0.18s;
+    }
+
+    .trade-option:hover {
+      border-color: var(--color-blue-mid);
+      background: var(--color-trade-hover);
+    }
+
+    .trade-option.is-selected {
+      border-color: var(--color-blue-dark);
+      border-width: 2px;
+      background: var(--color-trade-active);
+    }
+
+    .trade-option-icon {
+      width: 22px;
+      flex-shrink: 0;
+      color: var(--color-ink);
+    }
+
+    .trade-option-icon svg {
+      width: 18px;
+      height: 32px;
+      display: block;
+    }
+
+    .trade-option-icon--wide svg {
+      width: 20px;
+      height: 28px;
+    }
+
+    .trade-option-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .trade-option-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-ink);
+    }
+
+    .trade-option-meta {
+      font-size: 0.8rem;
+      color: var(--color-ink-muted);
+    }
+
+    /* --- CTA ------------------------------------------------------------- */
+    .cta {
+      display: none;
+      width: 100%;
+      padding: 17px 32px;
+      background: var(--color-lime);
+      color: var(--color-ink);
+      border: none;
+      border-radius: var(--radius-btn);
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-cta);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-cta-hover);
+    }
+
+    .cta:active {
+      transform: translateY(0);
+      box-shadow: var(--shadow-cta-active);
+    }
+
+    .cta.is-visible {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cta-icon {
+      color: var(--color-ink);
+    }
+
+    /* --- Confetti & footer ----------------------------------------------- */
+    .confetti {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      pointer-events: none;
+      opacity: 0;
+      border-radius: 2px;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--color-border);
+      padding: 2rem clamp(1.25rem, 5vw, 3rem);
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--color-ink-muted);
+    }
+
+    /* --- Keyframes ------------------------------------------------------- */
+    @keyframes pulseRing {
+      0%   { opacity: 0; transform: scale(0.985); }
+      30%  { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.01); }
+    }
+
+    @keyframes pop {
+      0%   { transform: scale(0.6) translateY(6px); opacity: 0; }
+      60%  { transform: scale(1.08) translateY(0); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <symbol id="icon-hero-tick" viewBox="0 0 13 13" fill="none">
+      <path d="M1.5 7L5 10.5L11.5 2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-step-done" viewBox="0 0 27 28" fill="none">
+      <circle cx="13.5" cy="14" r="12.5" stroke="currentColor" stroke-width="2"/>
+      <path d="M8 14.5L12 18.5L19 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-phone-no" viewBox="0 0 20 28" fill="none">
+      <rect x="1" y="1" width="18" height="26" rx="2" stroke="var(--color-ink)" stroke-width="1"/>
+      <line x1="7" y1="25" x2="13" y2="25" stroke="var(--color-ink)" stroke-width="1" stroke-linecap="round"/>
+      <line x1="7" y1="3" x2="13" y2="3" stroke="var(--color-ink)" stroke-width="1" stroke-linecap="round"/>
+      <line x1="3" y1="3" x2="17" y2="25" stroke="var(--color-red)" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-phone" viewBox="0 0 18 32" fill="none">
+      <rect x="1" y="1" width="16" height="30" rx="2" stroke="currentColor" stroke-width="1"/>
+      <line x1="5" y1="28" x2="13" y2="28" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+      <line x1="5" y1="3" x2="13" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-cta-arrow" viewBox="0 0 24 24" fill="none">
+      <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <nav class="navbar">
+    <a href="#" class="navbar-brand">
+      <img
+        class="navbar-brand-img"
+        src="assets/SOW-logo.svg"
+        alt="SavingsMeter Logo"
+      >
+    </a>
+    <button type="button" class="navbar-menu" id="menu-btn" aria-label="Open menu">
+      <img class="navbar-menu-icon" src="assets/menu.svg" alt="">
+    </button>
+  </nav>
+
+  <section class="hero">
+    <p class="hero-kicker">Free &middot; No sign-up required</p>
+    <h1 class="hero-title">
+      Find your best<br><span class="hero-title-accent">phone savings</span>
+    </h1>
+    <p class="hero-lede">
+      Answer 2 quick questions and see exactly how much you could save on your next upgrade.
+    </p>
+    <ul class="hero-list">
+      <li class="hero-item">
+        <svg class="hero-item-icon" width="14" height="14" aria-hidden="true"><use href="#icon-hero-tick"/></svg>
+        Answer 2 questions to unlock deals
+      </li>
+      <li class="hero-item">
+        <svg class="hero-item-icon" width="14" height="14" aria-hidden="true"><use href="#icon-hero-tick"/></svg>
+        We show the math — including plan fees
+      </li>
+      <li class="hero-item">
+        <svg class="hero-item-icon" width="14" height="14" aria-hidden="true"><use href="#icon-hero-tick"/></svg>
+        You see the total cost, no surprises
+      </li>
+    </ul>
+  </section>
+
+  <section class="calculator" id="calculator">
+    <header class="calculator-head">
+      <h2>See Your Savings</h2>
+      <p>Two steps. Instant results.</p>
+    </header>
+
+    <div class="calculator-grid">
+
+      <div class="meter" id="meter">
+        <svg viewBox="0 0 300 170" aria-label="Savings meter">
+          <defs>
+            <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="var(--color-blue-light)"/>
+              <stop offset="40%"  stop-color="var(--color-blue-mid)"/>
+              <stop offset="100%" stop-color="var(--color-blue-dark)"/>
+            </linearGradient>
+          </defs>
+          <path d="M 30,150 A 120,120 0 0,1 270,150"
+            fill="none" stroke="var(--color-gray-200)" stroke-width="16" stroke-linecap="round"/>
+          <path id="fillArc" d="M 30,150 A 120,120 0 0,1 270,150"
+            fill="none" stroke="url(#arcGrad)" stroke-width="16" stroke-linecap="round"/>
+          <circle cx="90"  cy="46" r="2.5" fill="var(--color-gray-300)"/>
+          <circle cx="150" cy="30" r="2.5" fill="var(--color-gray-300)"/>
+          <circle cx="210" cy="46" r="2.5" fill="var(--color-gray-300)"/>
+          <text id="meterNum" x="150" y="108" text-anchor="middle" class="meter-num">$0</text>
+          <text x="150" y="126" text-anchor="middle" class="meter-caption">estimated yearly</text>
+          <text x="150" y="140" text-anchor="middle" class="meter-caption">total cost savings</text>
+          <text x="30"  y="168" text-anchor="middle" class="meter-range">$0</text>
+          <text x="270" y="168" text-anchor="middle" class="meter-range">$1,500</text>
+        </svg>
+        <div class="meter-footer"><span class="meter-badge" id="meter-badge"></span></div>
+      </div>
+
+      <div class="step-stack">
+
+        <section class="step" id="step-phone" aria-labelledby="step-phone-title">
+          <div class="step-head">
+            <div class="step-marker" id="phone-marker" aria-hidden="true">
+              <span class="step-marker-num">1</span>
+              <svg class="step-marker-check" width="27" height="28" aria-hidden="true"><use href="#icon-step-done"/></svg>
+            </div>
+            <h3 class="step-title" id="step-phone-title">Pick your new phone</h3>
+          </div>
+          <p class="step-hint">Select the phone you want to upgrade to</p>
+          <label class="visually-hidden" for="phone-select">Choose a phone</label>
+          <select class="phone-select" id="phone-select">
+            <option value="" disabled selected>Choose a phone…</option>
+            <option value="iphone16pro" data-base="180">Apple iPhone 16 Pro</option>
+            <option value="iphone16"    data-base="140">Apple iPhone 16</option>
+            <option value="s25ultra"    data-base="170">Samsung Galaxy S25 Ultra</option>
+            <option value="s25"         data-base="130">Samsung Galaxy S25</option>
+            <option value="pixel9"      data-base="120">Google Pixel 9</option>
+          </select>
+        </section>
+
+        <section class="step is-locked" id="step-trade" aria-labelledby="step-trade-title">
+          <div class="step-head">
+            <div class="step-marker" id="trade-marker" aria-hidden="true">
+              <span class="step-marker-num">2</span>
+              <svg class="step-marker-check" width="27" height="28" aria-hidden="true"><use href="#icon-step-done"/></svg>
+            </div>
+            <h3 class="step-title" id="step-trade-title">Got a phone to trade in?</h3>
+          </div>
+          <p class="step-hint">Even an older phone can boost your savings</p>
+          <div class="trade-list">
+            <button type="button" class="trade-option" data-trade="none" data-value="0">
+              <span class="trade-option-icon trade-option-icon--wide" aria-hidden="true">
+                <svg><use href="#icon-phone-no"/></svg>
+              </span>
+              <span class="trade-option-body">
+                <span class="trade-option-title">No trade-in</span>
+                <span class="trade-option-meta">$0 trade-in credit</span>
+              </span>
+            </button>
+            <button type="button" class="trade-option" data-trade="old" data-value="150">
+              <span class="trade-option-icon" aria-hidden="true"><svg><use href="#icon-phone"/></svg></span>
+              <span class="trade-option-body">
+                <span class="trade-option-title">3+ years old phone</span>
+                <span class="trade-option-meta">Up to $150 trade-in credit</span>
+              </span>
+            </button>
+            <button type="button" class="trade-option" data-trade="mid" data-value="400">
+              <span class="trade-option-icon" aria-hidden="true"><svg><use href="#icon-phone"/></svg></span>
+              <span class="trade-option-body">
+                <span class="trade-option-title">2–3 years old phone</span>
+                <span class="trade-option-meta">Up to $400 trade-in credit</span>
+              </span>
+            </button>
+            <button type="button" class="trade-option" data-trade="new" data-value="800">
+              <span class="trade-option-icon" aria-hidden="true"><svg><use href="#icon-phone"/></svg></span>
+              <span class="trade-option-body">
+                <span class="trade-option-title">1 year old phone</span>
+                <span class="trade-option-meta">Up to $800 trade-in credit</span>
+              </span>
+            </button>
+          </div>
+        </section>
+
+        <button type="button" class="cta" id="cta">
+          Unlock My Deals
+          <svg class="cta-icon" width="22" height="22" aria-hidden="true"><use href="#icon-cta-arrow"/></svg>
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 SavingsMeter &mdash; Estimates are for illustrative purposes only.</p>
+  </footer>
+
+  <script>
+    const MAX_SAVINGS = 1500;
+    const ARC_LEN     = 377;
+
+    const state = {
+      phoneBase: 0,
+      tradeIn:   null,
+      step:      1
+    };
+
+    let displayed = 0;
+
+    function calcSavings() {
+      if (state.phoneBase === 0) return 0;
+      const baseGap    = 240;
+      const phoneBonus = state.phoneBase;
+      const tradeBoost = state.tradeIn ? state.tradeIn / 3 : 0;
+      const step1      = Math.round(baseGap + phoneBonus * 0.7);
+      return state.tradeIn === null ? step1 : Math.round(step1 + tradeBoost);
+    }
+
+    function animateMeter(target) {
+      const meterNum = document.getElementById('meterNum');
+      const fillArc  = document.getElementById('fillArc');
+      const meter    = document.getElementById('meter');
+
+      meter.classList.remove('is-pulsing');
+      void meter.offsetWidth;
+      meter.classList.add('is-pulsing');
+
+      const pct = Math.min(target / MAX_SAVINGS, 1);
+      fillArc.style.strokeDasharray = (pct * ARC_LEN).toFixed(1) + ' ' + ARC_LEN;
+
+      const from = displayed;
+      const diff = target - from;
+      const dur  = 900;
+      const t0   = performance.now();
+
+      function tick(now) {
+        const p    = Math.min((now - t0) / dur, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        meterNum.textContent = '$' + Math.round(from + diff * ease).toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+        else displayed = target;
+      }
+      requestAnimationFrame(tick);
+
+      setTimeout(() => triggerBadge(state.step), 400);
+      spawnConfetti();
+    }
+
+    const BADGES = {
+      1: 'Savings unlocked!',
+      2: 'Trade-in boost activated'
+    };
+
+    function triggerBadge(step) {
+      const el = document.getElementById('meter-badge');
+      el.textContent = BADGES[step] || '';
+      el.classList.remove('is-visible');
+      void el.offsetWidth;
+      el.classList.add('is-visible');
+      setTimeout(() => el.classList.remove('is-visible'), 3000);
+    }
+
+    function spawnConfetti() {
+      const meter = document.getElementById('meter');
+      const cs = getComputedStyle(document.documentElement);
+      const confettiColors = [
+        '--color-blue-dark',
+        '--color-lime',
+        '--color-blue-light',
+        '--color-ink',
+        '--color-amber',
+      ].map(t => cs.getPropertyValue(t).trim());
+
+      for (let i = 0; i < 14; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.background = confettiColors[i % confettiColors.length];
+        c.style.left = (50 + (Math.random() - 0.5) * 20) + '%';
+        c.style.top  = '55%';
+        meter.appendChild(c);
+
+        const dx  = (Math.random() - 0.5) * 280;
+        const dy  = -80 - Math.random() * 60;
+        const rot = (Math.random() - 0.5) * 540;
+
+        c.animate([
+          { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+          { transform: `translate(${dx}px,${dy}px) rotate(${rot}deg)`, opacity: 0 }
+        ], { duration: 900 + Math.random() * 400, easing: 'cubic-bezier(.2,.7,.3,1)' });
+
+        setTimeout(() => c.remove(), 1400);
+      }
+    }
+
+    function advanceStep(to) {
+      state.step = to;
+      if (to === 2) {
+        document.getElementById('phone-marker').classList.add('is-complete');
+        document.getElementById('step-trade').classList.remove('is-locked');
+      }
+      if (to === 3) {
+        document.getElementById('trade-marker').classList.add('is-complete');
+        document.getElementById('cta').classList.add('is-visible');
+      }
+    }
+
+    document.getElementById('phone-select').addEventListener('change', function () {
+      state.phoneBase = +this.options[this.selectedIndex].dataset.base;
+      animateMeter(calcSavings());
+      if (state.step === 1) setTimeout(() => advanceStep(2), 600);
+    });
+
+    document.querySelectorAll('.trade-option').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.trade-option').forEach(b => b.classList.remove('is-selected'));
+        this.classList.add('is-selected');
+        state.tradeIn = +this.dataset.value;
+        animateMeter(calcSavings());
+        if (state.step === 2) setTimeout(() => advanceStep(3), 600);
+      });
+    });
+  </script>
+</body>
+</html>
