@@ -380,6 +380,9 @@ body {
 
 .step.is-complete .step-title {
   color: var(--color-white);
+  margin-right: 30px;
+  flex: 1 1 0%;
+  text-align: center;
 }
 
 .step.is-complete .phone-select {
@@ -459,6 +462,8 @@ body {
   letter-spacing: -0.02em;
   color: var(--color-ink);
   transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.08s;
+  margin-right: 20px;
+  flex: 1 1 0%;
 }
 
 .step-hint {
