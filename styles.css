@@ -305,6 +305,20 @@ body {
   fill: var(--color-ink-muted);
 }
 
+.phone-retail-price {
+  display: none;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-ink);
+  text-align: center;
+  line-height: normal;
+  margin-top: 14px;
+}
+
+.phone-retail-price.is-visible {
+  display: block;
+}
+
 .meter-footer {
   min-height: 2.25rem;
   display: flex;

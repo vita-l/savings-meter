@@ -111,6 +111,11 @@ document.getElementById('phone-select').addEventListener('change', function () {
   animateMeter(calcSavings());
   spawnConfetti();
   if (state.step === 1) setTimeout(() => advanceStep(2), 600);
+
+  const priceEl = document.getElementById('phone-retail-price');
+  const price = this.options[this.selectedIndex].dataset.price;
+  priceEl.textContent = 'Retail price: ' + price;
+  priceEl.classList.add('is-visible');
 });
 
 const tradeToggle = document.getElementById('trade-toggle');

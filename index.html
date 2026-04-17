@@ -86,9 +86,8 @@
           <circle cx="90"  cy="46" r="2.5" fill="var(--color-gray-300)"/>
           <circle cx="150" cy="30" r="2.5" fill="var(--color-gray-300)"/>
           <circle cx="210" cy="46" r="2.5" fill="var(--color-gray-300)"/>
-          <text id="meterNum" x="150" y="138" text-anchor="middle" class="meter-num">$0</text>
-          <text x="150" y="190" text-anchor="middle" class="meter-caption">estimated yearly</text>
-          <text x="150" y="174" text-anchor="middle" class="meter-caption">total cost savings</text>
+          <text id="meterNum" x="150" y="148" text-anchor="middle" class="meter-num">$0</text>
+          <text x="150" y="174" text-anchor="middle" class="meter-caption">total phone savings</text>
           <text x="30"  y="174" text-anchor="middle" class="meter-range">$0</text>
           <text x="270" y="174" text-anchor="middle" class="meter-range">$1,500</text>
         </svg>
@@ -107,14 +106,15 @@
           <label class="visually-hidden" for="phone-select">Select phone you want</label>
           <select class="phone-select" id="phone-select">
             <option value="" disabled selected>Select phone you want</option>
-            <option value="iphone17pro" data-base="180">Apple iPhone 17 Pro</option>
-            <option value="iphone16promax"    data-base="140">Apple iPhone 17 Pro Max</option>
-            <option value="iphone17"    data-base="140">Apple iPhone 17</option>
-            <option value="iphone17e"    data-base="140">Apple iPhone 17e</option>
-            <option value="s26plus"    data-base="170">Samsung Galaxy S26+</option>
-            <option value="s26"         data-base="130">Samsung Galaxy S26</option>
-            <option value="s26ultra"      data-base="120">Samsung Galaxy S26 Ultra</option>
+            <option value="iphone17pro" data-base="180" data-price="$1,099">Apple iPhone 17 Pro</option>
+            <option value="iphone16promax"    data-base="140" data-price="$1,199">Apple iPhone 17 Pro Max</option>
+            <option value="iphone17"    data-base="140" data-price="$799">Apple iPhone 17</option>
+            <option value="iphone17e"    data-base="140" data-price="$599">Apple iPhone 17e</option>
+            <option value="s26plus"    data-base="170" data-price="$999">Samsung Galaxy S26+</option>
+            <option value="s26"         data-base="130" data-price="$799">Samsung Galaxy S26</option>
+            <option value="s26ultra"      data-base="120" data-price="$1,299">Samsung Galaxy S26 Ultra</option>
           </select>
+          <p class="phone-retail-price" id="phone-retail-price"></p>
         </section>
 
         <section class="step is-locked" id="step-trade" aria-labelledby="step-trade-title">
