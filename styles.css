@@ -3,7 +3,7 @@
 
 :root {
   --color-blue-deep:   #006080;
-  --color-blue-dark:   #0084aa;
+  --color-blue-dark:   #0084AA;
   --color-blue-mid:    #279EC0;
   --color-blue-light:  #4CB7D5;
   --color-lime:        #C8FF7A;
@@ -369,26 +369,17 @@ body {
 }
 
 /* --- Step completed state -------------------------------------------- */
-.step.is-complete {
-  background-color: #259CBE;
-  background-image: none;
-}
 
-.step.is-complete .step-marker {
-  color: var(--color-lime);
-}
-
-.step.is-complete .step-title {
-  color: var(--color-white);
-}
 
 .step.is-complete .phone-select {
-  background-color: #259CBE;
-  border: 1px solid var(--color-white);
-  color: var(--color-white);
-  background-image: url("assets/ico_dropdown_arrow_white.svg");
+  border: 1px solid var(--color-border);
+  color: var(--color-blue-dark);
+  font-weight: 500;
+  background-color: var(--color-white);
 }
-
+.step.is-complete .step-head {
+  margin-bottom: var(--space-3);
+}
 .step.is-complete .trade-toggle-row {
   opacity: 0;
   visibility: hidden;
@@ -403,7 +394,7 @@ body {
 .step-head {
   display: flex;
   align-items: center;
-  gap: var(--space-6);
+  gap: var(--space-2);
   margin-bottom: var(--space-5);
 }
 
@@ -459,6 +450,9 @@ body {
   letter-spacing: -0.02em;
   color: var(--color-ink);
   transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.08s;
+  flex: 1;
+  text-align: center;
+  margin-right: 20px;
 }
 
 .step-hint {

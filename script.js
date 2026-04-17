@@ -141,6 +141,6 @@ tradeSelect.addEventListener('change', function () {
   spawnConfetti();
   document.getElementById('step-trade').classList.add('is-complete');
   document.getElementById('trade-marker').classList.add('is-complete');
-  document.getElementById('step-trade-title').textContent = 'Phone to trade in';
+  document.getElementById('step-trade-title').textContent = 'Trade-in phone';
   if (state.step === 2) setTimeout(() => advanceStep(3), 600);
 });
