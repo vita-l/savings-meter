@@ -214,8 +214,8 @@ body {
 .calculator {
   max-width: 940px;
   margin: 0 auto;
-  padding: clamp(var(--space-8), 6vw, var(--space-12)) clamp(1.25rem, 4vw, 2.5rem)
-    clamp(var(--space-12), 7vw, 5rem);
+  padding: clamp(var(--space-8), 6vw, var(--space-12)) clamp(2rem, 6vw, 2.5rem)
+    clamp(var(--space-8), 20vw, var(--space-12));
     
 }
 
@@ -260,7 +260,7 @@ body {
   position: relative;
   background: var(--color-white);
   border-radius: var(--radius-card);
-  padding: 0 var(--space-4) var(--space-4);
+  padding: 0 var(--space-4) 0;
   box-shadow: var(--shadow-card);
   overflow: hidden;
   background: linear-gradient(180deg, var(--white, #FFF) 72.12%, #EDEDED 100%);
@@ -315,15 +315,16 @@ body {
 
 .meter-badge {
   display: none;
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-2) var(--space-2);
   border-radius: 8px;
   background: #7EE9FF;
   color: var(--color-ink);
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: var(--leading-snug);
+  width:100%
 }
 
 .meter-badge.is-visible {
@@ -406,7 +407,7 @@ body {
 .step-head {
   display: flex;
   align-items: center;
-  gap: var(--space-6);
+  gap: var(--space-4);
   margin-bottom: var(--space-5);
 }
 
@@ -462,7 +463,6 @@ body {
   letter-spacing: -0.02em;
   color: var(--color-ink);
   transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.08s;
-  margin-right: 20px;
   flex: 1 1 0%;
 }
 
@@ -631,7 +631,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top:24px;
+  margin-top:20px;
   animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
