@@ -185,7 +185,7 @@ body {
 
 .hero-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-3);
   font-size: 0.9rem;
   font-weight: 600;
@@ -251,7 +251,7 @@ body {
   align-items: start;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 767px) {
   .calculator-grid { grid-template-columns: 1fr; }
 }
 
@@ -658,8 +658,6 @@ body {
   line-height: var(--leading-body);
   letter-spacing: 0.01em;
   color: var(--color-ink-muted);
-  max-width: 40rem;
-  margin: 0 auto;
   background-color:var(--color-ink) ;
 }
 
@@ -674,4 +672,155 @@ body {
   0%   { transform: scale(0.6) translateY(6px); opacity: 0; }
   60%  { transform: scale(1.08) translateY(0); opacity: 1; }
   100% { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================================
+   TABLET  768px+
+   ============================================================ */
+@media (min-width: 768px) {
+
+  /* Single-column: meter above steps */
+  .calculator-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Constrain and center the widget */
+  .calculator {
+    max-width: 400px;
+    padding-top: 24px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 60px;
+  }
+
+  /* Meter card: 24px top/bottom, 20px sides */
+  .meter {
+    padding: 24px 20px;
+  }
+
+  /* Step panels: pt-20 px-24 pb-24 */
+  .step {
+    padding: 20px 24px 24px;
+  }
+
+  /* Step head: tighter gap and margin */
+  .step-head {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* Step title: centered */
+  .step-title {
+    text-align: center;
+  }
+
+  /* Hero title: larger gap before bullets */
+  .hero-title {
+    margin-bottom: 24px;
+  }
+
+  /* Phone select: 279px max-width, centered */
+  .phone-select {
+    display: block;
+    max-width: 279px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Trade-in toggle row: 279px max-width, centered */
+  .trade-toggle-row {
+    max-width: 279px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Meter badge: 279px max-width, centered */
+  .meter-badge {
+    max-width: 279px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* CTA: 300px max-width, centered */
+  .cta.is-visible {
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ============================================================
+   DESKTOP  1440px+
+   ============================================================ */
+@media (min-width: 1440px) {
+
+  /* 2-column flex row: hero left | widget right
+     padding 0 120px → 1200px usable at 1440px
+     (matches Figma "2 Columns" frame: x=60 + px-60px = 120px inset each side) */
+  .layout-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    max-width: 1320px;
+    padding: 0 60px;
+    margin: 0 auto;
+  }
+
+  /* Left column: hero */
+  .hero {
+    flex: 1;
+    max-width: 582px;
+    text-align: left;
+    padding: 120px 0 60px;
+  }
+
+  /* "Find your best" stays 34px; "phone savings" becomes its own 74px block */
+  .hero-title {
+    font-size: 74px;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    margin-bottom: 32px;
+  }
+
+
+  /* Bullets: left-aligned, gap 24px */
+  .hero-list {
+    gap: 24px;
+    max-width: none;
+    margin: 0;
+  }
+  .hero-item {
+    font-size: 20px;
+  }
+  /* Right column: calculator/widget — 450px, py-60px */
+  .calculator {
+    width: 450px;
+    max-width: 450px;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 100px 0;
+  }
+
+  /* Meter card: 32px padding all sides */
+  .meter {
+    padding: 32px;
+  }
+
+  /* Step marker: slightly larger on desktop */
+  .step-marker {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* Step panels: pt-24 px-24 pb-32 */
+  .step {
+    padding: 24px 24px 32px;
+  }
+
+  /* Step title: 24px on desktop */
+  .step-title {
+    font-size: 24px;
+  }
 }
